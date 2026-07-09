@@ -1,0 +1,49 @@
+services:
+  # 1. Backend Web Service
+  - type: web
+    name: zyka-food-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: NODE_ENV
+        value: PRODUCTION
+      - key: DB_LOCAL_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRE
+        value: 90d
+      - key: JWT_EXPIRES_TIME
+        value: "90"
+      - key: CLOUDINARY_CLOUD_NAME
+        value: dkjeh4wei
+      - key: CLOUDINARY_API_KEY
+        value: "885351714539166"
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_API_KEY
+        value: pk_test_51TItHiHkLu1uuumFRkkQnl5wgOZ7bOPLCs5Jx4NnaiguFA03PG5CGnIahXWb6wCJZ0Drilez4qVNOFQjuGPUMDFU00JrnzmpMe
+      - key: GROQ_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+
+  # 2. Frontend Static Site
+  - type: static
+    name: zyka-food-frontend
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        sync: false
